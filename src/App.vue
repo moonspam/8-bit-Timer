@@ -30,6 +30,7 @@
 
 <script>
 const setTime = 15;
+const noSleep = new NoSleep(); // no sleep event
 
 export default {
   name: 'app',
@@ -45,17 +46,20 @@ export default {
     startTimer() {
       this.timer = setInterval(() => this.countdown(), 1000);
       this.resetButton = true;
+      noSleep.enable(); // no sleep event
     },
     stopTimer() {
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = true;
+      noSleep.disable(); // no sleep event
     },
     resetTimer() {
-      this.totalTime = setTime * 60;
       clearInterval(this.timer);
+      this.totalTime = setTime * 60;
       this.timer = null;
       this.resetButton = false;
+      noSleep.disable(); // no sleep event
     },
     countdown() {
       if (this.totalTime >= 1) {
@@ -65,12 +69,13 @@ export default {
           navigator.vibrate([1000]);
         }
       } else {
-        this.totalTime = 0;
         clearInterval(this.timer);
+        this.totalTime = 0;
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
         console.log('📳');
         navigator.vibrate([1000]);
+        noSleep.disable(); // no sleep event
       }
     },
     pad(time) {
