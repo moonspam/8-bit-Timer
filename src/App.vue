@@ -60,13 +60,17 @@ export default {
     countdown() {
       if (this.totalTime >= 1) {
         this.totalTime -= 1;
+        if (this.totalTime === 60) {
+          console.log('📳');
+          navigator.vibrate([500]);
+        }
       } else {
         this.totalTime = 0;
         clearInterval(this.timer);
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
-        // eslint-disable-next-line
-        // alert('END');
+        console.log('📳');
+        navigator.vibrate([500]);
       }
     },
     pad(time) {
@@ -105,6 +109,10 @@ html, body, pre, code, kbd, samp {
   font-family: 'Press Start 2P', cursive;
 }
 
+body {
+  background-color: lighten(#209cee, 30%);
+}
+
 menu {
   padding: 0;
 }
@@ -118,6 +126,7 @@ menu {
   color: #000;
   > div {
     width: 320px;
+    background-color: #fff;
   }
   .num {
     padding: 10px 0;
