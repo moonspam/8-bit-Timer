@@ -60,9 +60,9 @@ export default {
     countdown() {
       if (this.totalTime >= 1) {
         this.totalTime -= 1;
-        if (this.totalTime === 60) {
+        if (this.totalTime === 300) {
           console.log('📳');
-          navigator.vibrate([500]);
+          navigator.vibrate([1000]);
         }
       } else {
         this.totalTime = 0;
@@ -70,7 +70,7 @@ export default {
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
         console.log('📳');
-        navigator.vibrate([500]);
+        navigator.vibrate([1000]);
       }
     },
     pad(time) {
