@@ -2,17 +2,25 @@
   <div id="app">
     <div class="nes-container with-title is-centered">
       <h1 class="title">{{ title }}</h1>
-      <i class="nes-ash"></i>
+      <video src="https://media.giphy.com/media/3o85xI9azPrziRBRkI/giphy.mp4" muted loop autoplay></video>
       <div class="num">
         <span>{{ minutes }}</span>
         <span>:</span>
         <span>{{ seconds }}</span>
       </div>
-      <div class="btns">
+      <div class="btns control">
         <button class="nes-btn" v-if="timer" @click="stopTimer">Pause</button>
-        <button class="nes-btn is-primary" v-else @click="startTimer">PLAY</button>
-        <button class="nes-btn is-error" v-if="resetButton" @click="resetTimer">R</button>
-        <button class="nes-btn is-success" @click="toggleFullScreen">F</button>
+        <button class="nes-btn" v-else @click="startTimer">PLAY</button>
+        <button class="nes-btn is-warning" v-if="resetButton" @click="resetTimer">RESET</button>
+      </div>
+      <div class="btns option">
+        <button class="nes-btn" :class="{'is-error': !timer, 'is-disabled': timer}"
+          @click="totalTime > 0 ? totalTime -= 10 : totalTime = 0"
+          :disabled="timer">-</button>
+        <button class="nes-btn" :class="{'is-primary': !timer, 'is-disabled': timer}"
+          @click="totalTime < 5940 ? totalTime += 10 : totalTime = 5940"
+          :disabled="timer">+</button>
+        <button class="nes-btn is-success full" @click="toggleFullScreen">F11</button>
       </div>
     </div>
 
@@ -29,7 +37,6 @@
 </template>
 
 <script>
-const setTime = 15;
 const noSleep = new NoSleep(); // no sleep event
 
 export default {
@@ -38,7 +45,7 @@ export default {
     return {
       title: 'TIMER',
       timer: null,
-      totalTime: setTime * 60,
+      totalTime: 15 * 60,
       resetButton: false,
     };
   },
@@ -56,7 +63,7 @@ export default {
     },
     resetTimer() {
       clearInterval(this.timer);
-      this.totalTime = setTime * 60;
+      this.totalTime = 15 * 60;
       this.timer = null;
       this.resetButton = false;
       noSleep.disable(); // no sleep event
@@ -65,7 +72,6 @@ export default {
       if (this.totalTime >= 1) {
         this.totalTime -= 1;
         if (this.totalTime === 300) {
-          console.log('📳');
           navigator.vibrate([1000]);
         }
       } else {
@@ -73,7 +79,6 @@ export default {
         this.totalTime = 0;
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
-        console.log('📳');
         navigator.vibrate([1000]);
         noSleep.disable(); // no sleep event
       }
@@ -115,7 +120,7 @@ html, body, pre, code, kbd, samp {
 }
 
 body {
-  background-color: lighten(#209cee, 30%);
+  background: lighten(#209cee, 30%) url('https://media.giphy.com/media/knBA26sv2ueXK/source.gif') no-repeat center center/cover;
 }
 
 menu {
@@ -132,6 +137,10 @@ menu {
   > div {
     width: 320px;
     background-color: #fff;
+    video {
+      margin: auto;
+      width: 70%;
+    }
   }
   .num {
     padding: 10px 0;
@@ -142,14 +151,11 @@ menu {
     button {
       flex: 1;
     }
-    .is-error {
-      flex: none;
-      width: 50px;
-    }
-    .is-success {
-      flex: none;
-      margin-left: 10px;
-      width: 50px;
+    &.option {
+      margin-top: 10px;
+      .full {
+        margin-left: 10px;
+      }
     }
   }
 }
