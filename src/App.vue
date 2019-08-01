@@ -75,14 +75,14 @@ export default {
       if (this.totalTime >= 1) {
         this.totalTime -= 1;
         if (this.totalTime === 300) {
-          navigator.vibrate([250, 250]);
+          navigator.vibrate([500, 250, 500]);
         }
       } else {
         clearInterval(this.timer);
         this.totalTime = 0;
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
-        navigator.vibrate([250, 250, 500]);
+        navigator.vibrate([500, 250, 500, 250, 500]);
         noSleep.disable(); // no sleep event
       }
     },
