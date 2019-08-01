@@ -75,14 +75,14 @@ export default {
       if (this.totalTime >= 1) {
         this.totalTime -= 1;
         if (this.totalTime === 300) {
-          navigator.vibrate([1000]);
+          navigator.vibrate([250, 250]);
         }
       } else {
         clearInterval(this.timer);
         this.totalTime = 0;
         this.resetTimer();
         document.getElementById('dialog-rounded').showModal();
-        navigator.vibrate([1000]);
+        navigator.vibrate([250, 250, 500]);
         noSleep.disable(); // no sleep event
       }
     },
@@ -169,7 +169,7 @@ menu { padding: 0 }
     }
   }
   .footer {
-    padding: 10px 0;
+    padding: 10px 0 0;
     a {
       opacity: 0.5;
       color: #000;
