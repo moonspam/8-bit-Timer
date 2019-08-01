@@ -23,6 +23,9 @@
         <button class="nes-btn is-success full" @click="toggleFullScreen">F11</button>
       </div>
     </div>
+    <div class="footer">
+      <a href="https://github.com/moonspam/8-bit-Timer">@GitHub</a>
+    </div>
 
     <dialog class="nes-dialog is-rounded" id="dialog-rounded">
       <form method="dialog">
@@ -123,39 +126,53 @@ body {
   background: lighten(#209cee, 30%) url('https://media.giphy.com/media/knBA26sv2ueXK/source.gif') no-repeat center center/cover;
 }
 
-menu {
-  padding: 0;
+menu { padding: 0 }
+
+@keyframes burnInDetector {
+  20%  {margin: 0 0 0 -4px}
+  40%  {margin: -4px 0 0 0}
+  60%  {margin: 0 -4px 0 0}
+  80%  {margin: 0 0 -4px 0}
 }
 
 #app {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: #000;
-  > div {
+  .nes-container {
     width: 320px;
     background-color: #fff;
+    animation: 60s burnInDetector steps(1, start) infinite;
     video {
       margin: auto;
       width: 70%;
     }
-  }
-  .num {
-    padding: 10px 0;
-    font-size: 48px;
-  }
-  .btns {
-    display: flex;
-    button {
-      flex: 1;
+    .num {
+      padding: 10px 0;
+      font-size: 48px;
     }
-    &.option {
-      margin-top: 10px;
-      .full {
-        margin-left: 10px;
+    .btns {
+      display: flex;
+      button {
+        flex: 1;
       }
+      &.option {
+        margin-top: 10px;
+        .full {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  .footer {
+    padding: 10px 0;
+    a {
+      opacity: 0.5;
+      color: #000;
     }
   }
 }
