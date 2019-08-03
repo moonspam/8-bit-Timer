@@ -15,9 +15,9 @@ This is very simple timer.
 
 ## Used
 
-- [Vue CLI]('https://cli.vuejs.org/')
-- [NES.css]('https://github.com/nostalgic-css/NES.css/')
-- [NoSleep.js]('https://github.com/richtr/NoSleep.js/')
-- [favicon.io]('https://favicon.io/')
-- [gitignore.io]('https://gitignore.io')
-- [Firebase]('https://firebase.google.com')
+- [Vue CLI](https://cli.vuejs.org/)
+- [NES.css](https://github.com/nostalgic-css/NES.css/)
+- [NoSleep.js](https://github.com/richtr/NoSleep.js/)
+- [favicon.io](https://favicon.io/)
+- [gitignore.io](https://gitignore.io)
+- [Firebase](https://firebase.google.com)
