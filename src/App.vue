@@ -78,10 +78,12 @@ export default {
           navigator.vibrate([500, 250, 500]);
         }
       } else {
+        const dialog = document.getElementById('dialog-rounded');
         clearInterval(this.timer);
         this.totalTime = 0;
         this.resetTimer();
-        document.getElementById('dialog-rounded').showModal();
+        dialogPolyfill.registerDialog(dialog);
+        dialog.showModal();
         navigator.vibrate([500, 250, 500, 250, 500]);
         noSleep.disable(); // no sleep event
       }

@@ -15,6 +15,7 @@ module.exports = {
     parser: 'babel-eslint',
   },
   globals: {
+    dialogPolyfill: true,
     NoSleep: true,
   },
 };
