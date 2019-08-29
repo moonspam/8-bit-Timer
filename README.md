@@ -16,7 +16,7 @@ This is very simple timer.
 ## Used
 
 - [Vue CLI](https://cli.vuejs.org/)
-- [NES.css](https://github.com/nostalgic-css/NES.css/)
+- [NES.css](https://github.com/nostalgic-css/NES.css/) ([dialog-polyfill](https://github.com/GoogleChrome/dialog-polyfill))
 - [NoSleep.js](https://github.com/richtr/NoSleep.js/)
 - [favicon.io](https://favicon.io/)
 - [gitignore.io](https://gitignore.io)
