@@ -8,19 +8,29 @@
         <span>:</span>
         <span>{{ seconds }}</span>
       </div>
-      <div class="btns control">
-        <button class="nes-btn" v-if="timer" @click="stopTimer">Pause</button>
-        <button class="nes-btn" v-else @click="startTimer">PLAY</button>
-        <button class="nes-btn is-warning" v-if="resetButton" @click="resetTimer">RESET</button>
-      </div>
-      <div class="btns option">
-        <button class="nes-btn" :class="{'is-error': !timer, 'is-disabled': timer}"
+      <div class="btns">
+        <button class="nes-btn" :class="{'is-error': !status, 'is-disabled': status}"
           @click="totalTime > 0 ? totalTime -= 10 : totalTime = 0"
-          :disabled="timer">-</button>
-        <button class="nes-btn" :class="{'is-primary': !timer, 'is-disabled': timer}"
+          :disabled="status">-</button>
+        <button class="nes-btn" :class="{'is-primary': !status, 'is-disabled': status}"
           @click="totalTime < 5940 ? totalTime += 10 : totalTime = 5940"
-          :disabled="timer">+</button>
+          :disabled="status">+</button>
         <button class="nes-btn is-success full" @click="toggleFullScreen">F11</button>
+      </div>
+      <div class="btns">
+        <button class="nes-btn" :class="{'is-disabled': status}"
+          @click="changeTimer(5 * 60)" :disabled="status">5</button>
+        <button class="nes-btn" :class="{'is-disabled': status}"
+          @click="changeTimer(15 * 60)" :disabled="status">15</button>
+        <button class="nes-btn" :class="{'is-disabled': status}"
+          @click="changeTimer(30 * 60)" :disabled="status">30</button>
+        <button class="nes-btn" :class="{'is-disabled': status}"
+          @click="changeTimer(60 * 60)" :disabled="status">60</button>
+      </div>
+      <div class="btns control">
+        <button class="nes-btn is-error" v-if="timer" @click="stopTimer">Pause</button>
+        <button class="nes-btn is-warning" v-else @click="startTimer">PLAY</button>
+        <button class="nes-btn" v-if="status" @click="resetTimer">RESET</button>
       </div>
     </div>
     <div class="footer">
@@ -41,6 +51,7 @@
 
 <script>
 const noSleep = new NoSleep(); // no sleep event
+const initTime = 15 * 60;
 
 export default {
   name: 'app',
@@ -48,27 +59,33 @@ export default {
     return {
       title: 'TIMER',
       timer: null,
-      totalTime: 15 * 60,
-      resetButton: false,
+      totalTime: initTime,
+      setTime: initTime,
+      status: false,
     };
   },
   methods: {
     startTimer() {
       this.timer = setInterval(() => this.countdown(), 1000);
-      this.resetButton = true;
+      this.status = true;
       noSleep.enable(); // no sleep event
     },
     stopTimer() {
       clearInterval(this.timer);
       this.timer = null;
-      this.resetButton = true;
+      this.status = true;
       noSleep.disable(); // no sleep event
+    },
+    changeTimer(e) {
+      this.setTime = e;
+      this.totalTime = e;
+      this.resetTimer();
     },
     resetTimer() {
       clearInterval(this.timer);
-      this.totalTime = 15 * 60;
+      this.totalTime = this.setTime;
       this.timer = null;
-      this.resetButton = false;
+      this.status = false;
       noSleep.disable(); // no sleep event
     },
     countdown() {
@@ -125,6 +142,7 @@ html, body, pre, code, kbd, samp {
 }
 
 body {
+  font-size: 14px;
   background: lighten(#209cee, 30%) url('https://media.giphy.com/media/knBA26sv2ueXK/source.gif') no-repeat center center/cover;
 }
 
@@ -159,14 +177,15 @@ menu { padding: 0 }
     }
     .btns {
       display: flex;
+      margin-top: 8px;
+      &.control {
+        font-size: 16px;
+      }
       button {
         flex: 1;
       }
-      &.option {
-        margin-top: 10px;
-        .full {
-          margin-left: 10px;
-        }
+      .full {
+        margin-left: 10px;
       }
     }
   }
