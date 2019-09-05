@@ -40,7 +40,7 @@
     <dialog class="nes-dialog is-rounded" id="dialog-rounded">
       <form method="dialog">
         <p class="title">Alert</p>
-        <p>Return to your seat.</p>
+        <p>Time is over.</p>
         <menu class="dialog-menu">
           <button class="nes-btn is-primary">Confirm</button>
         </menu>
