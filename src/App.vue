@@ -35,6 +35,8 @@
     </div>
     <div class="footer">
       <a href="https://github.com/moonspam/8-bit-Timer">@GitHub</a>
+      <span> / </span>
+      <a href="https://moonspam.github.io/Lets-make-a-Timer/">Blog</a>
     </div>
 
     <dialog class="nes-dialog is-rounded" id="dialog-rounded">
