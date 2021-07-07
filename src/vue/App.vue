@@ -175,7 +175,11 @@ menu { padding: 0 }
     }
     .num {
       padding: 10px 0;
-      font-size: 48px;
+      font-size: 0;
+      span {
+        display: inline-block;
+        font-size: 48px;
+      }
     }
     .btns {
       display: flex;

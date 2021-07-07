@@ -1,21 +1,18 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
-  },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
+  extends: 'airbnb-base',
+  plugins: [
+    'import',
   ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  env: {
+    browser: ['last 2 versions', 'safari >= 7'],
+    jquery: true,
   },
-  parserOptions: {
-    parser: 'babel-eslint',
+  rules: {
+    'no-console': 0,
+    'no-alert': 0,
+    'no-var': 0,
   },
   globals: {
-    dialogPolyfill: true,
-    NoSleep: true,
+    $: false,
   },
 };
