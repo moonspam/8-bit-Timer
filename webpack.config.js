@@ -17,15 +17,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlBeautifyPlugin = require('@nurminen/html-beautify-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 function generateHtmlPlugins(templateDir) {
   const templateFiles = fs.readdirSync(templateDir).filter((file) => file.substr(-5) === '.html');
   return templateFiles.map((file) => new HtmlWebpackPlugin({
     template: `./${file}`,
     filename: `${file}`,
-    minify: {
-      removeAttributeQuotes: false,
-    },
+    minify: false,
     hash: true,
     inject: 'body',
     chunks: 'all',
@@ -41,7 +40,7 @@ module.exports = (env, argv) => {
       protectWebpackAssets: false,
     }),
     new MiniCssExtractPlugin({
-      filename: './css/style.css',
+      filename: 'css/style.css',
     }),
   ];
 
@@ -103,14 +102,17 @@ module.exports = (env, argv) => {
     return val;
   }
 
+  console.log(argv.mode);
+
   return {
     context: path.resolve(__dirname, sourcePath),
     entry: {
       app: ['./js/app.js'],
     },
     output: {
-      filename: './js/[name].js',
+      filename: 'js/[name].js',
       path: path.resolve(__dirname, outputPath),
+      publicPath: '/',
     },
     target: ['web', 'es5'],
     resolve: {
@@ -124,12 +126,29 @@ module.exports = (env, argv) => {
         directory: path.resolve(__dirname, sourcePath),
         watch: true,
       },
+      open: true,
     },
     infrastructureLogging: {
       level: 'warn',
     },
     mode: argv.mode === 'development' ? 'development' : 'production',
     devtool: argv.mode === 'development' ? 'source-map' : false,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            chunks: 'all',
+          },
+        },
+      },
+      minimizer: [
+        new TerserPlugin({
+          extractComments: false,
+        }),
+      ],
+    },
     performance: {
       hints: argv.mode === 'production' ? 'warning' : false,
     },
@@ -146,7 +165,7 @@ module.exports = (env, argv) => {
               : {
                 loader: MiniCssExtractPlugin.loader,
                 options: {
-                  publicPath: '../',
+                  publicPath: '/',
                 },
               },
             'css-loader',
@@ -160,12 +179,11 @@ module.exports = (env, argv) => {
           ],
         },
         {
-          test: /\.(jpe?g|png|gif)$/,
-          exclude: /node_modules/,
-          loader: 'file-loader',
-          options: {
-            name: argv.mode === 'development' ? '[path][name].[ext]' : '[path][name].[ext]?[hash]',
-            esModule: false,
+          test: /\.(gif|png|jpe?g)$/,
+          include: /images/,
+          type: 'asset/resource',
+          generator: {
+            filename: argv.mode === 'development' ? 'images/[name][ext]' : 'images/[name][ext]?[hash]',
           },
         },
         {
