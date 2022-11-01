@@ -102,7 +102,9 @@ module.exports = (env, argv) => {
     return val;
   }
 
-  console.log(argv.mode);
+  console.log('\n********************************************************************************');
+  console.log(`🚀 Build Mode: ${argv.mode}`);
+  console.log('********************************************************************************\n');
 
   return {
     context: path.resolve(__dirname, sourcePath),
@@ -128,8 +130,11 @@ module.exports = (env, argv) => {
       },
       open: true,
     },
-    infrastructureLogging: {
-      level: 'warn',
+    stats: {
+      preset: 'errors-only',
+      builtAt: true,
+      timings: true,
+      version: true,
     },
     mode: argv.mode === 'development' ? 'development' : 'production',
     devtool: argv.mode === 'development' ? 'source-map' : false,
