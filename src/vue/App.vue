@@ -2,49 +2,56 @@
   <div id="app">
     <div class="nes-container with-title is-centered">
       <h1 class="title">{{ title }}</h1>
-      <video src="https://media.giphy.com/media/3o85xI9azPrziRBRkI/giphy.mp4" muted loop autoplay></video>
+      <video src="https://media.giphy.com/media/fQZX2aoRC1Tqw/giphy.mp4" muted loop autoplay></video>
       <div class="num">
+        <span>{{ hours }}</span>
+        <span>:</span>
         <span>{{ minutes }}</span>
         <span>:</span>
         <span>{{ seconds }}</span>
       </div>
       <div class="btns">
         <button class="nes-btn" :class="{'is-error': !status, 'is-disabled': status}"
-          @click="totalTime > 0 ? totalTime -= 10 : totalTime = 0"
+          @click="totalTime > 0 ? totalTime -= 600 : totalTime = 0"
           :disabled="status">-</button>
         <button class="nes-btn" :class="{'is-primary': !status, 'is-disabled': status}"
-          @click="totalTime < 5940 ? totalTime += 10 : totalTime = 5940"
+          @click="totalTime <= 85800 ? totalTime += 600 : totalTime = totalTime"
           :disabled="status">+</button>
-        <button class="nes-btn is-success full" @click="toggleFullScreen">F11</button>
+        <!--
+        <button class="nes-btn is-success full" @click="toggleFullScreen">FULL</button>
+        -->
       </div>
       <div class="btns">
         <button class="nes-btn" :class="{'is-disabled': status}"
-          @click="changeTimer(5 * 60)" :disabled="status">5</button>
+          @click="changeTimer(30 * 60)" :disabled="status">30M</button>
         <button class="nes-btn" :class="{'is-disabled': status}"
-          @click="changeTimer(15 * 60)" :disabled="status">15</button>
+          @click="changeTimer(60 * 60)" :disabled="status">1H</button>
         <button class="nes-btn" :class="{'is-disabled': status}"
-          @click="changeTimer(30 * 60)" :disabled="status">30</button>
-        <button class="nes-btn" :class="{'is-disabled': status}"
-          @click="changeTimer(60 * 60)" :disabled="status">60</button>
+          @click="changeTimer(180 * 60)" :disabled="status">3H</button>
       </div>
       <div class="btns control">
-        <button class="nes-btn is-error" v-if="timer" @click="stopTimer">Pause</button>
-        <button class="nes-btn is-warning" v-else @click="startTimer">PLAY</button>
+        <button class="nes-btn is-error" v-if="timer" @click="stopTimer">PAUSE</button>
+        <button class="nes-btn is-warning" v-else @click="startTimer">START</button>
         <button class="nes-btn" v-if="status" @click="resetTimer">RESET</button>
       </div>
     </div>
+
+    <!--
     <div class="footer">
       <a href="https://github.com/moonspam/8-bit-Timer">@GitHub</a>
       <span> / </span>
       <a href="https://moonspam.github.io/Lets-make-a-Timer/">Blog</a>
     </div>
+    -->
 
     <dialog class="nes-dialog is-rounded" id="dialog-rounded">
       <form method="dialog">
+        <!--
         <p class="title">Alert</p>
+        -->
         <p>Time is over.</p>
         <menu class="dialog-menu">
-          <button class="nes-btn is-primary">Confirm</button>
+          <button class="nes-btn is-primary">CONFIRM</button>
         </menu>
       </form>
     </dialog>
@@ -53,13 +60,13 @@
 
 <script>
 const noSleep = new NoSleep(); // no sleep event
-const initTime = 15 * 60;
+const initTime = 60 * 60;
 
 export default {
   name: 'app',
   data() {
     return {
-      title: 'TIMER',
+      title: 'AD 합격! PRO 합격!',
       timer: null,
       totalTime: initTime,
       setTime: initTime,
@@ -126,12 +133,16 @@ export default {
     },
   },
   computed: {
+    hours() {
+      const hours = Math.floor(this.totalTime / 60 / 60);
+      return this.pad(hours);
+    },
     minutes() {
-      const minutes = Math.floor(this.totalTime / 60);
+      const minutes = Math.floor((this.totalTime / 60) - (this.hours * 60));
       return this.pad(minutes);
     },
     seconds() {
-      const seconds = this.totalTime - (this.minutes * 60);
+      const seconds = this.totalTime - (this.hours * 60 * 60 + this.minutes * 60);
       return this.pad(seconds);
     },
   },
@@ -145,7 +156,8 @@ html, body, pre, code, kbd, samp {
 
 body {
   font-size: 14px;
-  background: lighten(#209cee, 30%) url('https://media.giphy.com/media/knBA26sv2ueXK/source.gif') no-repeat center center/cover;
+  background: lighten(#209cee, 30%) url('https://media.giphy.com/media/gFhZjOtzoutSvckWPM/giphy.gif') no-repeat center center/cover;
+  // background: lighten(#209cee, 30%) url('https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif') no-repeat center center/cover;
 }
 
 menu { padding: 0 }
@@ -166,12 +178,13 @@ menu { padding: 0 }
   text-align: center;
   color: #000;
   .nes-container {
-    width: 320px;
+    width: 32vw;
     background-color: #fff;
     animation: 60s burnInDetector steps(1, start) infinite;
     video {
       margin: auto;
-      width: 70%;
+      width: 50%;
+      margin-bottom: 1vh;
     }
     .num {
       padding: 10px 0;
